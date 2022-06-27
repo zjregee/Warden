@@ -37,5 +37,10 @@ func main() {
 	yonghu.POST("/add", controller.AddEmployee)
 	yonghu.POST("/modify", controller.ModifyEmployee)
 
+	user := e.Group("/user")
+	user.POST("/login", controller.LoginIn)
+	user.POST("/info", controller.LoginInfo)
+	user.POST("/logout", controller.LoginOut)
+
 	e.Logger.Fatal(e.Start(":8000"))
 }

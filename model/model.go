@@ -58,5 +58,13 @@ type EmployeeInformation struct {
 	JobTitle     string
 	Telephone    string
 	Introduction string
+	HeadPortrait string
 	Remark       string
+}
+
+type UserInformation struct {
+	ID       int64
+	Name     string
+	Password string
+	Token    string
 }

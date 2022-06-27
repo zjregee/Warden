@@ -3,6 +3,7 @@ package mysql
 import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"Warden/model"
 )
 
 var DB *gorm.DB
@@ -14,4 +15,10 @@ func init() {
 	if err != nil {
 		panic("mysql init error")
 	}
+
+	DB.AutoMigrate(&model.OldInformation{})
+	DB.AutoMigrate(&model.CheckOutInformation{})
+	DB.AutoMigrate(&model.OutInformation{})
+	DB.AutoMigrate(&model.EmployeeInformation{})
+	DB.AutoMigrate(&model.UserInformation{})
 }

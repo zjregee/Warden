@@ -64,6 +64,7 @@ func AddEmployee(c echo.Context) error {
 		return err
 	}
 
+	user := model.UserInformation{}
 	model := model.EmployeeInformation{}
 
 	if err = mysql.DB.First(&model, "name = ?", u.Name).Error; err == nil {
@@ -77,7 +78,11 @@ func AddEmployee(c echo.Context) error {
 		model.Telephone = u.Telephone
 		model.Introduction = u.Introduction
 		model.Remark = u.Remark
+		user.Name = u.Name;
+		user.Password = "";
+		user.Token = "";
 		mysql.DB.Save(&model)
+		mysql.DB.Save(&user)
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"status": 200,
 		})
@@ -93,8 +98,15 @@ func AddEmployee(c echo.Context) error {
 	model.Telephone = u.Telephone
 	model.Introduction = u.Introduction
 	model.Remark = u.Remark
+	user.Name = u.Name;
+	user.Password = "";
+	user.Token = "";
 
 	if err = mysql.DB.Create(&model).Error; err != nil {
+		return err
+	}
+
+	if err = mysql.DB.Create(&user).Error; err != nil {
 		return err
 	}
 
