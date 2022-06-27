@@ -7,6 +7,7 @@ import (
 	"io"
 	"fmt"
 	"time"
+	"strconv"
 	"net/http"
 	"crypto/md5"
 
@@ -60,7 +61,7 @@ func LoginIn(c echo.Context) error {
 		})
 	}
 
-	token := GenerateMD5(account + string(rune(time.Now().Unix())))
+	token := GenerateMD5(account + strconv.FormatInt(time.Now().Unix(), 10))
 
 	model := model.UserInformation{}
 	mysql.DB.Model(&model).Where("name = ?", account).Update("token", token)
