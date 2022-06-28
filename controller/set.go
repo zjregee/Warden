@@ -9,6 +9,31 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func SearchEmployeeAll(c echo.Context) error {
+	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+	
+	informations := []model.EmployeeInformation{}
+	_ = mysql.DB.Find(&informations)
+
+	temp := []interface{}{}
+	for _, model := range informations {
+		resData := map[string]interface{}{}
+		resData["name"] = model.Name
+		resData["sex"] = model.Sex
+		resData["age"] = model.Age
+		resData["type"] = model.Type
+		resData["hire_date"] = model.HireDate
+		resData["duty"] = model.Duty
+		resData["job_title"] = model.JobTitle
+		resData["telephone"] = model.Telephone
+		resData["introduction"] = model.Introduction
+		resData["remark"] = model.Remark
+		temp = append(temp, resData)
+	}
+	
+	return context.RetData(c, temp)
+}
+
 func SearchEmployee(c echo.Context) error {
 	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 

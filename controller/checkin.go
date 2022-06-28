@@ -9,6 +9,39 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func SearchCheckinAll(c echo.Context) error {
+	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+
+	informations := []model.OldInformation{}
+	_ = mysql.DB.Find(&informations)
+
+	temp := []interface{}{}
+	for _, information := range informations {
+		resData := map[string]interface{}{}
+		resData["id"] = information.ID
+		resData["name"] = information.Name
+		resData["age"] = information.Age
+		resData["sex"] = information.Sex
+		resData["identification"] = information.Identification
+		resData["room"] = information.Room
+		resData["building"] = information.Building
+		resData["file_id"] = information.FileId
+		resData["old_type"] = information.OldType
+		resData["check_in_time"] = information.CheckInTime
+		resData["expiration_time"] = information.ExpirationTime
+		resData["telephone"] = information.Telephone
+		resData["birthday"] = information.Birthday
+		resData["height"] = information.Height
+		resData["marriage"] = information.Marriage
+		resData["weight"] = information.Weight
+		resData["blood_type"] = information.BloodType
+		resData["head_portrait"] = information.HeadPortrait
+		resData["remark"] = information.Remark
+		temp = append(temp, resData)
+	}
+	return context.RetData(c, temp)
+}
+
 func SearchCheckIn(c echo.Context) error {
 	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 
@@ -215,5 +248,57 @@ func DeleteCheckIn(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": 200,
+	})
+}
+
+func GetIDByName(c echo.Context) error {
+	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+
+	var u = struct {
+		Name string `json:"name" form:"name"`
+	}{}
+
+	err := c.Bind(&u)
+	if err != nil {
+		return err
+	}
+
+	information := model.OldInformation{}
+
+	if err = mysql.DB.First(&information, "name = ?", u.Name).Error; err == nil {
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"status": 200,
+			"id": information.ID,
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"status": 100,
+	})
+}
+
+func GetNameByID(c echo.Context) error {
+	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+
+	var u = struct {
+		ID string `json:"id" form:"id"`
+	}{}
+
+	err := c.Bind(&u)
+	if err != nil {
+		return err
+	}
+
+	information := model.OldInformation{}
+
+	if err = mysql.DB.First(&information, "ID = ?", u.ID).Error; err == nil {
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"status": 200,
+			"name": information.Name,
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"status": 100,
 	})
 }

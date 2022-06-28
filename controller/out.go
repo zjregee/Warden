@@ -9,6 +9,31 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func SearchOutAll(c echo.Context) error {
+	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+	
+	informations := []model.OutInformation{}
+	_ = mysql.DB.Find(&informations)
+
+	temp := []interface{}{}
+	for _, model := range informations {
+		resData := map[string]interface{}{}
+		resData["name"] = model.Name
+		resData["reason"] = model.Reason
+		resData["out_time"] = model.OutTime
+		resData["predict_back_time"] = model.PredictBackTime
+		resData["people"] = model.People
+		resData["relationship"] = model.RelationShip
+		resData["telephone"] = model.Telephone
+		resData["remark"] = model.Remark
+		resData["fact_back_time"] = model.FactBackTime
+		resData["is_pass"] = model.IsPass
+		temp = append(temp, resData)
+	}
+	
+	return context.RetData(c, temp)
+}
+
 func SearchOut(c echo.Context) error {
 	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 
