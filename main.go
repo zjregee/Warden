@@ -46,7 +46,7 @@ func main() {
 	yonghu.POST("/search", controller.SearchEmployee)
 	yonghu.POST("/add", controller.AddEmployee)
 	yonghu.POST("/modify", controller.ModifyEmployee)
-	yonghu.POST("/search", controller.SearchEmployeeAll)
+	yonghu.POST("/searchall", controller.SearchEmployeeAll)
 
 	user := e.Group("/user")
 	user.POST("/login", controller.LoginIn)
