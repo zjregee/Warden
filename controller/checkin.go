@@ -138,6 +138,7 @@ func AddCheckIn(c echo.Context) error {
 		mysql.DB.Save(&information)
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"status": 200,
+			"id": information.ID,
 		})
 	}
 
@@ -166,6 +167,7 @@ func AddCheckIn(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": 200,
+		"id": information.ID,
 	})
 }
 

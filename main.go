@@ -4,6 +4,7 @@ import (
 	"Warden/controller"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	_ "expvar"
 )
 
 func main() {

@@ -91,6 +91,7 @@ func AddCheckOut(c echo.Context) error {
 		mysql.DB.Save(&model)
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"status": 200,
+			"id": model.ID,
 		})
 	}
 
@@ -108,6 +109,7 @@ func AddCheckOut(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": 200,
+		"id": model.ID,
 	})
 }
 
